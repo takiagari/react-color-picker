@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React カラーピッカー</title>
+  <!-- React コアライブラリ -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <!-- React コンポーネントをDOMにレンダリングするライブラリ -->
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel トランスパイラ -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- CSSファイルの読み込み -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    // ReactのuseStateフックをインポート
+    const { useState } = React;
+
+    /**
+     * ColorPickerコンポーネント
+     * @description RGBの各値を入力すると、指定した色をリアルタイムで表示するコンポーネント
+     * @returns {JSX.Element} カラーピッカーのUIをレンダリングする要素
+     */
+    function ColorPicker() {
+      // red、green、blueの3つの状態を定義。初期値は0。
+      const [red, setRed] = useState(0);
+      const [green, setGreen] = useState(0);
+      const [blue, setBlue] = useState(0);
+
+      /**
+       * handleRedChange
+       * @description 赤の値が変更されたときに呼び出されるハンドラ
+       * @param {Object} event - イベントオブジェクト
+       */
+      const handleRedChange = (event) => setRed(event.target.value);
+
+      /**
+       * handleGreenChange
+       * @description 緑の値が変更されたときに呼び出されるハンドラ
+       * @param {Object} event - イベントオブジェクト
+       */
+      const handleGreenChange = (event) => setGreen(event.target.value);
+
+      /**
+       * handleBlueChange
+       * @description 青の値が変更されたときに呼び出されるハンドラ
+       * @param {Object} event - イベントオブジェクト
+       */
+      const handleBlueChange = (event) => setBlue(event.target.value);
+
+      // 現在のRGB値を使用して色の文字列を生成
+      const color = `rgb(${red}, ${green}, ${blue})`;
+
+      return (
+        <div className="color-picker">
+          <h1>React Color Picker</h1>
+          <div>
+            <label>
+              R:
+              <input
+                type="number"
+                value={red}
+                onChange={handleRedChange}
+                min="0"
+                max="255"
+              />
+            </label>
+            <label>
+              G:
+              <input
+                type="number"
+                value={green}
+                onChange={handleGreenChange}
+                min="0"
+                max="255"
+              />
+            </label>
+            <label>
+              B:
+              <input
+                type="number"
+                value={blue}
+                onChange={handleBlueChange}
+                min="0"
+                max="255"
+              />
+            </label>
+          </div>
+          {/* 現在の色を表示するボックス */}
+          <div
+            className="color-box"
+            style={{ backgroundColor: color }}
+          ></div>
+          <p>{color}</p>
+        </div>
+      );
+    }
+
+    // ReactDOM.createRootを使用してReactアプリをレンダリング
+    const rootElement = document.getElementById('root');
+    // ReactアプリケーションをDOMのルート要素にマウント
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(<ColorPicker />);
+  </script>
+</body>
+</html>
